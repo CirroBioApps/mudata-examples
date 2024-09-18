@@ -21,14 +21,48 @@ from itertools import cycle
 logger = logging.getLogger("mudata-curated-metagenomic-data")
 
 
+def trim_categories(mdata: mu.MuData, params: MicrobiomeParams) -> mu.MuData:
+
+    # If the comparison is not categorical, then return the data as is
+    if not params.is_categorical:
+        return mdata
+    
+    # Get the list of categories
+    categories = mdata.obs[params.compare_by]
+
+    # If there are fewer than 3 categories, then return the data as is
+    if len(categories.unique()) <= 3:
+        return mdata
+    
+    # Find the smallest number of categories which account for 80% of the data
+    cumsum = categories.value_counts().cumsum()
+    cumsum /= cumsum.max()
+    n_categories = max(cumsum[cumsum < 0.8].index.size, 2)
+
+    to_keep = categories.value_counts().head(n_categories).index
+
+    # Save the unaltered data
+    mdata.obs["original_" + params.compare_by] = categories
+
+    # Trim the data
+    mdata.obs[params.compare_by] = categories.apply(
+        lambda x: x if x in to_keep else "other"
+    )
+
+    return mdata
+
+
 def run(adata: AnnData, params: MicrobiomeParams, basename: str):
 
-    # Run the microbiome analysis
+    # Parse the microbiome data
     mdata = common.parse_adata(
         adata,
         groupby_var=False,
         sum_to_one=True
     )
+    # Trim down the number of categorical groups, if > 5
+    mdata = trim_categories(mdata, params)
+    # Run the microbiome analysis
     microbiome._run_processes(mdata, params)
     microbiome._add_views(mdata, params)
 

@@ -1,8 +1,8 @@
 [
     {
         "dataset_name": "HMP 2012",
-        "compare_by": "body_subsite",
-        "label": "Body Subsite",
+        "compare_by": "body_site",
+        "label": "Body Site",
         "n_top_features": 20,
         "is_categorical": true,
         "leiden_res": 1.0
