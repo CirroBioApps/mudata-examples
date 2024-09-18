@@ -1,15 +1,22 @@
 #!/usr/bin/env python3
 
+from mudata_explorer.parsers import common
 from mudata_explorer.parsers import curatedMetagenomicData
 from mudata_explorer.parsers import microbiome
 from mudata_explorer.parsers.microbiome import MicrobiomeParams
 from typing import Tuple
-import json
-from pathlib import Path
-from pandas import read_csv, DataFrame
 from anndata import AnnData
 from mudata_explorer.sdk import io
 import logging
+import mudata as mu
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+import plotly.express as px
+from scipy.cluster import hierarchy
+from pandas import DataFrame, read_csv
+from pathlib import Path
+import json
+from itertools import cycle
 
 logger = logging.getLogger("mudata-curated-metagenomic-data")
 
@@ -17,12 +24,121 @@ logger = logging.getLogger("mudata-curated-metagenomic-data")
 def run(adata: AnnData, params: MicrobiomeParams, basename: str):
 
     # Run the microbiome analysis
-    mdata = microbiome._parse_adata(adata, groupby_var=True)
+    mdata = common.parse_adata(
+        adata,
+        groupby_var=False,
+        sum_to_one=True
+    )
     microbiome._run_processes(mdata, params)
     microbiome._add_views(mdata, params)
 
     # Save the results
     io.write_h5mu(mdata, basename)
+
+    # Make a thumbnail
+    make_thumbnail(mdata, params, basename)
+
+
+def make_thumbnail(mdata: mu.MuData, params: MicrobiomeParams, basename: str):
+    """Make a thumbnail for the analysis."""
+
+    # Make a figure with plotly that has two subplots, arranged vertically, not sharing any axes
+    fig = make_subplots(rows=1, cols=2, shared_yaxes=False, shared_xaxes=False)
+
+    # Make a stacked bar plot with the top features
+    make_stacked_bar_plot(mdata, params, fig, 1)
+
+    # Show the UMAP, colored by leiden cluster
+    make_umap_scatter(mdata, params, fig, 2)
+
+    fig.update_layout(
+        showlegend=False,
+        barmode='stack',
+        bargap=0,
+        bargroupgap=0,
+        autosize=True, 
+        margin={'l': 0, 'r': 0, 't': 0, 'b': 0},
+        **{
+            f'{axis}_{attr}': False
+            for axis in ["xaxis", "yaxis", "xaxis2", "yaxis2"]
+            for attr in ["showticklabels", "showgrid", "zeroline"]
+        }
+    )
+
+    # Save the figure
+    fig.write_image(f"{basename}.png", width=210, height=118)
+
+
+def make_umap_scatter(mdata: mu.MuData, params: MicrobiomeParams, fig, col):
+    data = (
+        mdata
+        .mod["abund"]
+        .obsm["umap"]
+        .assign(leiden=mdata.obs["leiden"])
+    )
+    palette = cycle(px.colors.qualitative.D3)
+    fig.add_traces(
+        [
+            go.Scatter(
+                x=cluster["UMAP 1"],
+                y=cluster["UMAP 2"],
+                marker_color=next(palette),
+                marker_size=2,
+                mode="markers",
+            )
+            for _, cluster in data.groupby("leiden")
+        ],
+        rows=1,
+        cols=col
+    )
+
+def make_stacked_bar_plot(mdata: mu.MuData, params: MicrobiomeParams, fig, col):
+
+    # Get the table of top features
+    data = (
+        mdata
+        .mod["abund"]
+        .to_df().loc[
+            :,
+            (
+                mdata
+                .mod["abund"]
+                .varm["summary_stats"]
+                .sort_values("mean", ascending=False)
+                .head(params.n_top_features)
+                .index.values
+            )
+        ]
+    )
+    data = data.assign(other=1 - data.sum(axis=1))
+
+    # Sort the rows by linkage clustering
+    data = data.iloc[
+        hierarchy.leaves_list(
+            hierarchy.linkage(
+                data.values,
+                method="ward"
+            )
+        )
+    ]
+
+    palette = cycle(px.colors.qualitative.D3)
+    fig.add_traces(
+        [
+            go.Bar(
+                name=str(col),
+                x=data.index,
+                y=data[col],
+                marker_color=next(palette)
+            )
+            for col in [
+                cname
+                for cname in data.columns[::-1]
+            ]
+        ],
+        rows=1,
+        cols=col
+    )
 
 
 def pick_column(df) -> Tuple[str, bool]:
