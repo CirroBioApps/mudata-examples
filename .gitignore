@@ -16,3 +16,4 @@ debug.log
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
+hugo/.hugo_build.lock
