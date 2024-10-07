@@ -1,1 +1,18 @@
 .DS_Store
+debug.log
+
+### Hugo ###
+# Generated files by hugo
+/hugo/public/
+/hugo/resources/_gen/
+/hugo/hugo_stats.json
+/hugo/content/post/*/*.html
+/hugo/content/post/*/*.zip
+
+### vscode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
