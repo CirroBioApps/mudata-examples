@@ -86,7 +86,7 @@ def run():
     )
 
     # Write out as markdown
-    inventory.to_json("../../hugo/data/galleries/microbiome_report/curatedMetagenomicData.json", orient="records", indent=4)
+    inventory.to_json("../../hugo/data/galleries/microbiome_report.json", orient="records", indent=4)
 
 
 if __name__ == "__main__":
