@@ -1,0 +1,8 @@
+<div style="display: flex; flex-wrap: wrap; gap: 16px; padding: 16px; padding-left: 30px; padding-right: 30px;">
+{{ range index site.Data.galleries .Page.Params.gallery }}
+<div style="flex: 1 1 calc(33.333% - 16px); box-sizing: border-box; border: 1px solid #ccc; border-radius: 8px; overflow: hidden; text-align: center; font-family: Lato; font-size: 14px;">
+    <a href="https://mudata-explorer.streamlit.app/load?file={{ .path }}" target="_blank"><img src="{{ .png }}" alt=""></a>
+    <p><b>{{ index . "Dataset Name" }}:</b> {{ index . "Total Samples" }}<br><b>Comparison:</b>{{ index . "Comparison By" }}</p>
+</div>
+{{ end }}
+</div>
