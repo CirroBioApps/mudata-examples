@@ -11,9 +11,13 @@ tags:
     - Microbiome
 ---
 
+<div style="text-align: center">
+
 [**Microbiome Report: Data Gallery**](/post/microbiome-report-gallery)
 
 [**Microbiome Report: Build Your Own**](https://mudata-explorer.streamlit.app/load_microbiome)
+
+</div>
 
 ---
 
@@ -45,15 +49,36 @@ from individuals with Inflammatory Bowel Disease (IBD).
 The collection of living figures shown below may be viewed and edited
 [at this link](https://mudata-explorer.streamlit.app/load?file=https%3a%2f%2fgithub.com%2fCirroBioApps%2fmudata-examples%2fraw%2fmain%2fdata%2fcuratedMetagenomicData%2fdata%2fNielsenHB_2014%2fNielsenHB_2014-0-study_condition-c43ffe639cfaac01.h5mu).
 
-<div style="padding-left: 30px"><img src="figure-1.png" width="50%"></div>
-<div style="padding-left: 30px"><img src="figure-2.png" width="50%"></div>
-<div style="padding-left: 30px"><img src="figure-3.png" width="50%"></div>
-<div style="padding-left: 30px"><img src="figure-4.png" width="50%"></div>
-<div style="padding-left: 30px"><img src="figure-5.png" width="50%"></div>
-<div style="padding-left: 30px"><img src="figure-6.png" width="50%"></div>
-<div style="padding-left: 30px"><img src="figure-7.png" width="50%"></div>
-<div style="padding-left: 30px"><img src="figure-8.png" width="50%"></div>
-<div style="padding-left: 30px"><img src="figure-9.png" width="50%"></div>
-<div style="padding-left: 30px"><img src="figure-10.png" width="50%"></div>
-<div style="padding-left: 30px"><img src="figure-11.png" width="50%"></div>
-<div style="padding-left: 30px"><img src="figure-12.png" width="50%"></div>
+<div style="text-align: center; padding-bottom: 20px"><img src="figure-1.png" width="80%"></div>
+<div style="text-align: center; padding-bottom: 20px"><img src="figure-2.png" width="80%"></div>
+<div style="text-align: center; padding-bottom: 20px"><img src="figure-3.png" width="80%"></div>
+<div style="text-align: center; padding-bottom: 20px"><img src="figure-4.png" width="80%"></div>
+<div style="text-align: center; padding-bottom: 20px"><img src="figure-5.png" width="80%"></div>
+<div style="text-align: center; padding-bottom: 20px"><img src="figure-6.png" width="80%"></div>
+<div style="text-align: center; padding-bottom: 20px"><img src="figure-7.png" width="80%"></div>
+<div style="text-align: center; padding-bottom: 20px"><img src="figure-8.png" width="80%"></div>
+<div style="text-align: center; padding-bottom: 20px"><img src="figure-9.png" width="80%"></div>
+<div style="text-align: center; padding-bottom: 20px"><img src="figure-10.png" width="80%"></div>
+<div style="text-align: center; padding-bottom: 20px"><img src="figure-11.png" width="80%"></div>
+<div style="text-align: center; padding-bottom: 20px"><img src="figure-12.png" width="80%"></div>
+
+## Making Changes
+
+As with [all Living Figures](/post/what-are-living-figures), the displays in the
+Microbiome Report may be edited and those changes may be saved and shared with
+collaborators.
+
+For a longer description of how to make changes, read the overall description
+of [the Living Figures project](/post/what-are-living-figures).
+
+![](microbiome-report-walkthrough.gif)
+
+---
+
+<div style="text-align: center">
+
+[**Microbiome Report: Data Gallery**](/post/microbiome-report-gallery)
+
+[**Microbiome Report: Build Your Own**](https://mudata-explorer.streamlit.app/load_microbiome)
+
+</div>

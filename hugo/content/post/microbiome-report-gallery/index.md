@@ -12,9 +12,13 @@ tags:
     - Microbiome
 ---
 
+<div style="text-align: center">
+
 [**Understanding the Microbiome Report**](/post/microbiome-report-intro)
 
 [**Microbiome Report: Build Your Own**](https://mudata-explorer.streamlit.app/load_microbiome)
+
+</div>
 
 ---
 
@@ -35,3 +39,13 @@ collection of living figures showing the results of the
 Microbiome Report for each dataset.
 
 {{% mudataGallery %}}
+
+---
+
+<div style="text-align: center">
+
+[**Understanding the Microbiome Report**](/post/microbiome-report-intro)
+
+[**Microbiome Report: Build Your Own**](https://mudata-explorer.streamlit.app/load_microbiome)
+
+</div>
