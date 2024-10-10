@@ -3,6 +3,7 @@ languageCode: 'en-us'
 title: 'Living Figures'
 theme: 'hugo-theme-stack'
 image: 'img/logo-color-150x150.png'
+timeout: 300s
 
 params:
   article:
